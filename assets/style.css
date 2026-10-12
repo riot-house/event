@@ -343,3 +343,4 @@ main{overflow-x:clip}
 .card-body .price,.card-body .price-sub{align-self:stretch}
 .soir-only[hidden]{display:none!important}
 input[type=radio]{accent-color:var(--cyan);width:18px;height:18px}
+@media(max-width:600px){.facts strong{font-size:1.25rem;white-space:nowrap}}
