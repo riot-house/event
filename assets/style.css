@@ -182,3 +182,6 @@ input:focus,select:focus,textarea:focus{border-color:var(--cyan);outline:0}
 .photo-row.cols3 img{aspect-ratio:4/3}
 @media(max-width:900px){.photo-row.cols3{grid-template-columns:1fr}}
 #galerie{text-align:center}
+.photo-row.cols4{grid-template-columns:repeat(4,1fr);text-align:left}
+.photo-row.cols4 img{aspect-ratio:1/1}
+@media(max-width:900px){.photo-row.cols4{grid-template-columns:1fr 1fr}}
