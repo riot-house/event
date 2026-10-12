@@ -22,7 +22,7 @@ Ce qui est déjà fait dans le code, puis ce qu'il faut faire à la main pour qu
 1. **Mettre le site en ligne** : voir « Mise en ligne » dans le README. HTTPS obligatoire.
 2. **Google Search Console** : ajouter la propriété `https://event.riothouse.fr/`, vérifier par DNS, envoyer `https://event.riothouse.fr/sitemap.xml`, puis « Demander une indexation » sur chacune des 5 pages.
 3. **Bing Webmaster Tools** : importer la propriété depuis Search Console (5 minutes).
-4. **Google Business Profile** : à créer pour « Riot House Events » (catégorie « Lieu de réception » ou « Salle de séminaire »), avec adresse, horaires, photos et site `event.riothouse.fr`. Demander des avis aux premiers clients. C'est le levier n°1 des recherches locales.
+4. **Google Business Profile** : à créer pour « Riot House Event » (catégorie « Lieu de réception » ou « Salle de séminaire »), avec adresse, horaires, photos et site `event.riothouse.fr`. Demander des avis aux premiers clients. C'est le levier n°1 des recherches locales.
 5. **Backlinks internes** (faciles) : depuis `riothouseprod.com` et `riothouseloc.fr`, ajouter un lien « Louer nos studios pour un événement » vers `event.riothouse.fr`, avec une ancre descriptive (pas « cliquez ici »).
 6. **Mesure** : installer un outil de statistiques respectueux de la vie privée (Plausible, Matomo) ; suivre les clics sur « Demander un devis » et les envois du formulaire.
 

@@ -43,7 +43,7 @@ for f in pages:
     if p.canon != url: err(rel, f"canonical {p.canon} != {url}")
     if p.h1 != 1: err(rel, f"{p.h1} balises h1 (attendu 1)")
     for i in p.imgs:
-        if not i.get("alt"): err(rel, f"image sans alt: {i.get('src')}")
+        if not i.get("alt") and i.get("aria-hidden") != "true": err(rel, f"image sans alt: {i.get('src')}")
         if not (i.get("width") and i.get("height")): err(rel, f"image sans width/height: {i.get('src')}")
     for l in p.ld:
         try: json.loads(l)

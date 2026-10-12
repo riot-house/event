@@ -1,4 +1,4 @@
-# Riot House Events — event.riothouse.fr
+# Riot House Event — event.riothouse.fr
 
 Landing page B2B de location des studios Riot House (soirées d'entreprise, séminaires, lancements produit).
 Site statique (HTML/CSS/JS), hébergé sur GitHub Pages, domaine via `CNAME`.
