@@ -178,3 +178,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--cyan);outline:0}
 .more{margin-top:2rem;color:var(--muted);font-size:.95rem}
 @media(max-width:900px){.three,.photo-row{grid-template-columns:1fr}}
 .price-sub{margin:.2rem 0 0!important;font-size:.85rem!important;color:var(--muted)!important}.price{margin-bottom:0!important}
+.photo-row.cols3{grid-template-columns:repeat(3,1fr);text-align:left}
+.photo-row.cols3 img{aspect-ratio:4/3}
+@media(max-width:900px){.photo-row.cols3{grid-template-columns:1fr}}
+#galerie{text-align:center}
