@@ -280,3 +280,5 @@ input:focus,select:focus,textarea:focus{border-color:var(--cyan);outline:0}
 .viewfinder.has-photo .vf-rec,.viewfinder.has-photo .vf-tc,.viewfinder.has-photo .vf-label{z-index:2;text-shadow:0 1px 8px rgba(0,0,0,.6)}
 .viewfinder.has-photo::before{z-index:2}
 .hero,.page-hero{padding-top:9.5rem}
+.bg-section::before{background:linear-gradient(180deg,rgba(5,8,13,.78),rgba(5,8,13,.45) 40%,rgba(5,8,13,.85))}
+.bg-section>img.bg{object-position:50% 40%}
