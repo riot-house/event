@@ -21,3 +21,7 @@ Site statique (HTML/CSS/JS), hébergé sur GitHub Pages, domaine via `CNAME`.
 ## Contrôle local
 `python3 scripts/check_seo.py` vérifie titres, descriptions, canonical, alt, liens internes et sitemap (également lancé en CI).
 Les pages `seminaire/`, `mise-au-vert/`, `soiree-entreprise/` et `lancement-produit/` partagent le même gabarit.
+
+## Mode test (noindex)
+Tant que le site n'est pas validé, l'indexation est **bloquée** (`noindex` sur chaque page et `Disallow: /` dans `robots.txt`).
+Pour la mise en production : `python3 scripts/set_indexing.py on`, commit, push sur `main`. Le contrôle SEO affiche un avertissement tant que le blocage est actif.
