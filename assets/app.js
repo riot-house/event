@@ -12,6 +12,15 @@
   var summaryText = "";
 
   function update() {
+    // Ménage : 250 € pour un studio, 500 € si les deux studios sont réservés
+    var menage = document.getElementById("menage");
+    if (menage) {
+      var both = ["Studio A", "Studio B"].every(function (l) {
+        return est.querySelector('input[data-label="' + l + '"]').checked;
+      });
+      menage.dataset.price = both ? 500 : 250;
+      document.getElementById("menage-price").textContent = (both ? 500 : 250) + " €";
+    }
     var total = 0, lines = [], text = [];
     est.querySelectorAll("input[type=checkbox]:checked").forEach(function (i) {
       var p = +i.dataset.price;
