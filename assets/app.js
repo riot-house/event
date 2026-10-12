@@ -40,6 +40,14 @@
   if (wanted) {
     Array.prototype.forEach.call(form.type.options, function (o) { if (o.value === wanted) form.type.value = wanted; });
   }
+  // ?options=video : préremplit la demande et coche la captation dans l'estimateur
+  if (new URLSearchParams(location.search).get("options") === "video") {
+    if (!form.message.value) form.message.value = "Option souhaitée : captation vidéo et photo de l'événement (aftermovie, interviews, photocall).";
+    if (est) {
+      var v = Array.prototype.filter.call(est.querySelectorAll("input[type=checkbox]"), function (i) { return i.dataset.label === "Vidéo / photo"; })[0];
+      if (v) { v.checked = true; update(); }
+    }
+  }
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     if (form.website.value) return; // honeypot
