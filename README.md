@@ -9,4 +9,15 @@ Site statique (HTML/CSS/JS), hébergé sur GitHub Pages, domaine via `CNAME`.
 - **Formulaire** : renseigner `FORM_ENDPOINT` dans `assets/app.js` (Formspree, fonction Vercel…). Sans endpoint, un `mailto:` pré-rempli s'ouvre.
 - **Tarifs** : prix en dur dans `index.html` (attributs `data-price`, cartes, JSON-LD, FAQ) et `OVERTIME_RATE` dans `assets/app.js`.
 - **DNS** : CNAME `event` → `riot-house.github.io`, puis activer Pages + HTTPS dans les réglages du repo.
-- **SEO** : ajouter le site dans Google Search Console (sitemap `/sitemap.xml`), créer/optimiser la fiche Google Business Profile, régénérer `assets/og-image.png` depuis `assets/og-source.html` si besoin.
+- **SEO** : voir `SEO.md`. `assets/og-image.png` se régénère depuis `assets/og-source.html`.
+
+## Mise en ligne
+1. Fusionner la pull request dans `main`.
+2. Dans GitHub : **Settings → Pages → Build and deployment → Source : GitHub Actions**. Le workflow `.github/workflows/pages.yml` contrôle puis publie le site à chaque push sur `main`.
+3. Dans **Settings → Pages → Custom domain**, saisir `event.riothouse.fr`, puis cocher **Enforce HTTPS** une fois le certificat émis.
+4. Chez l'hébergeur DNS de `riothouse.fr` : enregistrement **CNAME** `event` → `riot-house.github.io`.
+5. Suivre `SEO.md` (Search Console, Google Business Profile, backlinks).
+
+## Contrôle local
+`python3 scripts/check_seo.py` vérifie titres, descriptions, canonical, alt, liens internes et sitemap (également lancé en CI).
+Les pages `seminaire/`, `mise-au-vert/`, `soiree-entreprise/` et `lancement-produit/` partagent le même gabarit.
