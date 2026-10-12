@@ -312,3 +312,15 @@ input:focus,select:focus,textarea:focus{border-color:var(--cyan);outline:0}
 .tag{font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;color:var(--cyan);border:1px solid rgba(46,230,214,.45);border-radius:99px;padding:2px 8px}
 /* fond de « Pour qui, pour quoi » plus sombre */
 .bg-section::before{background:linear-gradient(180deg,rgba(5,8,13,.85),rgba(5,8,13,.66) 45%,rgba(5,8,13,.9))}
+
+/* ---------- v4 ---------- */
+/* logo blanc, bleu au survol (masque sur le PNG officiel) */
+.brand .logo{display:block;height:34px;aspect-ratio:633/205;background:#fff;transition:background-color .2s;
+  -webkit-mask:url(/assets/logo-riot-house.png) center/contain no-repeat;mask:url(/assets/logo-riot-house.png) center/contain no-repeat}
+.brand:hover .logo,.brand:focus-visible .logo{background:var(--cyan)}
+/* galerie : toutes les photos au même ratio, légendes sur une ligne */
+.photo-row.cols4{align-items:stretch}
+.photo-row.cols4 figure{display:flex;flex-direction:column}
+.photo-row.cols4 img{width:100%;height:auto;aspect-ratio:4/3!important;object-fit:cover}
+.photo-row.cols4 figcaption{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.opt-note{display:block;font-size:.8rem;color:var(--muted)}
