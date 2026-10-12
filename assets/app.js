@@ -12,6 +12,18 @@
   var summaryText = "";
 
   function update() {
+    // Formule : journée (9h-18h) ou soirée (16h-minuit, prolongation jusqu'à 2h)
+    var f = est.querySelector('input[name="formule"]:checked');
+    var soir = !f || f.value === "soir";
+    Array.prototype.forEach.call(est.querySelectorAll("input[data-jour]"), function (i) {
+      i.dataset.price = soir ? i.dataset.soir : i.dataset.jour;
+      i.parentNode.querySelector("b").textContent = fmt(+i.dataset.price) + " €";
+    });
+    Array.prototype.forEach.call(est.querySelectorAll(".soir-only"), function (el) {
+      el.hidden = !soir;
+      if (!soir) Array.prototype.forEach.call(el.querySelectorAll("input"), function (i) { i.checked = false; });
+    });
+    if (!soir) document.getElementById("overtime").value = "0";
     // Ménage : 250 € pour un studio, 500 € si les deux studios sont réservés
     var menage = document.getElementById("menage");
     if (menage) {
@@ -21,7 +33,7 @@
       menage.dataset.price = both ? 500 : 250;
       document.getElementById("menage-price").textContent = (both ? 500 : 250) + " €";
     }
-    var total = 0, lines = [], text = [];
+    var total = 0, lines = [], text = [soir ? "Soirée 16h-minuit" : "Journée 9h-18h"];
     est.querySelectorAll("input[type=checkbox]:checked").forEach(function (i) {
       var p = +i.dataset.price;
       total += p;
@@ -37,7 +49,7 @@
     document.getElementById("total-ht").textContent = fmt(total);
     document.getElementById("total-ttc").textContent = fmt(Math.round(total * (1 + VAT)));
     recap.innerHTML = lines.map(function (l) { return "<li><span>" + l[0] + "</span><span>" + l[1] + "</span></li>"; }).join("");
-    summaryText = text.length ? text.join(", ") + " — total estimé " + fmt(total) + " € HT" : "";
+    summaryText = lines.length ? text.join(", ") + " — total estimé " + fmt(total) + " € HT" : "";
     field.value = summaryText;
   }
   if (est) { est.addEventListener("change", update); update(); }
