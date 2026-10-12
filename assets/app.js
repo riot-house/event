@@ -35,6 +35,11 @@
 
   var form = document.getElementById("lead-form");
   var status = document.getElementById("form-status");
+  if (!form) return;
+  var wanted = new URLSearchParams(location.search).get("type");
+  if (wanted) {
+    Array.prototype.forEach.call(form.type.options, function (o) { if (o.value === wanted) form.type.value = wanted; });
+  }
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     if (form.website.value) return; // honeypot

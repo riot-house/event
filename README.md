@@ -4,7 +4,8 @@ Landing page B2B de location des studios Riot House (soirées d'entreprise, sém
 Site statique (HTML/CSS/JS), hébergé sur GitHub Pages, domaine via `CNAME`.
 
 ## À finaliser
-- **Photos** : remplacer les blocs `.ph` de `index.html` par de vraies images (WebP, `width`/`height`, `alt`), dans `assets/photos/`.
+- **Photos** : issues de riothouseloc.fr (studios A/B, extérieur, cuisine) dans `assets/photos/` (WebP 800/1600). À ajouter : terrasse/bar container et entrée (salon vert, borne d'arcade).
+- **Pages** : `/seminaire/` et `/mise-au-vert/` (gabarit identique, JSON-LD Service + FAQ + fil d'Ariane).
 - **Formulaire** : renseigner `FORM_ENDPOINT` dans `assets/app.js` (Formspree, fonction Vercel…). Sans endpoint, un `mailto:` pré-rempli s'ouvre.
 - **Tarifs** : prix en dur dans `index.html` (attributs `data-price`, cartes, JSON-LD, FAQ) et `OVERTIME_RATE` dans `assets/app.js`.
 - **DNS** : CNAME `event` → `riot-house.github.io`, puis activer Pages + HTTPS dans les réglages du repo.
