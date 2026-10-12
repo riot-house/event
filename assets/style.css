@@ -282,3 +282,33 @@ input:focus,select:focus,textarea:focus{border-color:var(--cyan);outline:0}
 .hero,.page-hero{padding-top:9.5rem}
 .bg-section::before{background:linear-gradient(180deg,rgba(5,8,13,.78),rgba(5,8,13,.45) 40%,rgba(5,8,13,.85))}
 .bg-section>img.bg{object-position:50% 40%}
+
+/* ---------- v3 : retours client ---------- */
+/* logo officiel */
+.brand{gap:12px}
+.brand img{height:34px;width:auto;display:block}
+.brand .ev{font-style:italic;font-weight:500;color:var(--cyan);font-size:1rem;letter-spacing:.02em;align-self:flex-end;margin-bottom:2px}
+/* mention vidéo discrète sous les boutons */
+.hint{display:flex;align-items:center;gap:.6rem;margin:-1.6rem 0 2.6rem;color:var(--muted);font-size:.95rem}
+.hint a{color:var(--text)}
+.hint .rec{width:.55rem;height:.55rem}
+/* chiffres clés en grand */
+.facts strong{font-size:clamp(2rem,2.6vw,3.2rem);font-weight:800;color:#fff;letter-spacing:-.02em}
+.facts li{padding:clamp(18px,1.4vw,30px) clamp(20px,1.6vw,34px)}
+@media(max-width:600px){.facts strong{font-size:1.7rem}}
+/* espaces : photo panoramique pleine largeur, texte dessous */
+.cards{grid-template-columns:1fr;gap:clamp(24px,2vw,48px)}
+.card .ph{aspect-ratio:21/8}
+.card-body{display:grid;grid-template-columns:1fr auto;column-gap:clamp(24px,4vw,80px);align-items:end;padding:clamp(22px,1.8vw,38px) clamp(24px,2vw,44px)}
+.card-body h3{font-size:clamp(1.4rem,1.6vw,2rem);grid-column:1}
+.card-body .size,.card-body p:not(.price):not(.price-sub){grid-column:1;max-width:80ch}
+.card-body .price,.card-body .price-sub{grid-column:2;text-align:right}
+.card-body .price{grid-row:1 / span 2;align-self:end;margin:0!important}
+.card-body .price-sub{grid-row:3}
+@media(max-width:900px){.card .ph{aspect-ratio:16/9}.card-body{grid-template-columns:1fr}.card-body .price,.card-body .price-sub{grid-column:1;grid-row:auto;text-align:left}}
+/* galerie en encadrés */
+.photo-row.cols4 img{aspect-ratio:4/3}
+.photo-row figcaption{display:flex;align-items:center;gap:.6rem}
+.tag{font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;color:var(--cyan);border:1px solid rgba(46,230,214,.45);border-radius:99px;padding:2px 8px}
+/* fond de « Pour qui, pour quoi » plus sombre */
+.bg-section::before{background:linear-gradient(180deg,rgba(5,8,13,.85),rgba(5,8,13,.66) 45%,rgba(5,8,13,.9))}

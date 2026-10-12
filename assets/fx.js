@@ -7,7 +7,7 @@
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
 
   /* 1. Halo bleu qui suit la souris */
-  var GLOW = ".facts>li,.card,.uses>li,.three>li,.steps>li,.included>li,.pano figure,.photo-row figure,.summary,.estimator,.form,.chips li,.timeline li";
+  var GLOW = ".facts>li,.card,.uses>li,.three>li,.included>li,.pano figure,.photo-row figure,.summary,.estimator,.form,.chips li";
   $$(GLOW).forEach(function (el) { el.classList.add("glow"); });
   document.addEventListener("pointermove", function (e) {
     var el = e.target.closest && e.target.closest(".glow");

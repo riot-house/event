@@ -35,6 +35,8 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+      - name: Versionner CSS/JS (anti-cache)
+        run: python3 scripts/bust_cache.py
       - name: Retirer les fichiers non publics
         run: rm -rf scripts .github assets/og-source.html
       - uses: actions/configure-pages@v5
