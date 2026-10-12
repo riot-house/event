@@ -62,6 +62,9 @@ for u in listed - urls: err("sitemap.xml", f"URL sans page: {u}")
 for need in ("CNAME", "robots.txt", "404.html", "assets/og-image.png"):
     if not (ROOT / need).exists(): err(need, "fichier manquant")
 
+if "Disallow: /\n" in (ROOT / "robots.txt").read_text():
+    print("ATTENTION : indexation bloquée (mode test). Lancer `python3 scripts/set_indexing.py on` avant la mise en production.")
+
 if errors:
     print("\n".join(errors)); sys.exit(1)
 print(f"OK : {len(urls)} pages contrôlées")
