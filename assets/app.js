@@ -12,28 +12,17 @@
   var summaryText = "";
 
   function update() {
-    // Formule : journée (9h-18h) ou soirée (16h-minuit, prolongation jusqu'à 2h)
+    // Formule : demi-journée (9h-13h / 14h-18h), journée (9h-18h) ou soirée (16h-minuit, ménage inclus)
     var f = est.querySelector('input[name="formule"]:checked');
-    var soir = !f || f.value === "soir";
+    var mode = f ? f.value : "soir", soir = mode === "soir";
     Array.prototype.forEach.call(est.querySelectorAll("input[data-jour]"), function (i) {
-      i.dataset.price = soir ? i.dataset.soir : i.dataset.jour;
+      i.dataset.price = i.dataset[mode];
       i.parentNode.querySelector("b").textContent = fmt(+i.dataset.price) + " €";
     });
-    Array.prototype.forEach.call(est.querySelectorAll(".soir-only"), function (el) {
-      el.hidden = !soir;
-      if (!soir) Array.prototype.forEach.call(el.querySelectorAll("input"), function (i) { i.checked = false; });
-    });
+    Array.prototype.forEach.call(est.querySelectorAll(".soir-only"), function (el) { el.hidden = !soir; });
     if (!soir) document.getElementById("overtime").value = "0";
-    // Ménage : 250 € pour un studio, 500 € si les deux studios sont réservés
-    var menage = document.getElementById("menage");
-    if (menage) {
-      var both = ["Studio A", "Studio B"].every(function (l) {
-        return est.querySelector('input[data-label="' + l + '"]').checked;
-      });
-      menage.dataset.price = both ? 500 : 250;
-      document.getElementById("menage-price").textContent = (both ? 500 : 250) + " €";
-    }
-    var total = 0, lines = [], text = [soir ? "Soirée 16h-minuit" : "Journée 9h-18h"];
+    var LABELS = { demi: "Demi-journée (9h-13h ou 14h-18h)", jour: "Journée 9h-18h", soir: "Soirée 16h-minuit, ménage inclus" };
+    var total = 0, lines = [], text = [LABELS[mode]];
     est.querySelectorAll("input[type=checkbox]:checked").forEach(function (i) {
       var p = +i.dataset.price;
       total += p;
