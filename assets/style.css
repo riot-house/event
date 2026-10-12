@@ -324,3 +324,6 @@ input:focus,select:focus,textarea:focus{border-color:var(--cyan);outline:0}
 .photo-row.cols4 img{width:100%;height:auto;aspect-ratio:4/3!important;object-fit:cover}
 .photo-row.cols4 figcaption{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .opt-note{display:block;font-size:.8rem;color:var(--muted)}
+.sister{font-size:.8rem;opacity:.75}
+.sister a,.sister-inline a{color:inherit}
+.sister-inline{margin:1.2rem 0 0;font-size:.85rem;color:var(--muted)}
