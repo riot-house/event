@@ -344,3 +344,12 @@ main{overflow-x:clip}
 .soir-only[hidden]{display:none!important}
 input[type=radio]{accent-color:var(--cyan);width:18px;height:18px}
 @media(max-width:600px){.facts strong{font-size:1.25rem;white-space:nowrap}}
+/* pages légales */
+.legal{max-width:900px;padding-top:9.5rem}
+.legal h1{font-size:clamp(2rem,4vw,3rem)}
+.legal h2{font-size:1.35rem;margin-top:2.2rem;color:#fff}
+.legal p,.legal li{color:var(--muted)}
+.legal ul{padding-left:1.2rem}
+.legal .updated{font-size:.85rem}
+.legal-note{text-align:left}
+.legal-note a{color:var(--text)}

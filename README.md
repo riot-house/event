@@ -25,3 +25,8 @@ Les pages `seminaire/`, `mise-au-vert/`, `soiree-entreprise/` et `lancement-prod
 ## Mode test (noindex)
 Tant que le site n'est pas validé, l'indexation est **bloquée** (`noindex` sur chaque page et `Disallow: /` dans `robots.txt`).
 Pour la mise en production : `python3 scripts/set_indexing.py on`, commit, push sur `main`. Le contrôle SEO affiche un avertissement tant que le blocage est actif.
+
+## Conformité (France)
+- Pages `/mentions-legales/` (LCEN) et `/confidentialite/` (RGPD), liées dans le pied de page ; mention d'information sous le formulaire.
+- Aucun cookie ni traceur : pas de bandeau de consentement nécessaire. **Si vous ajoutez** un outil de statistiques, un service d'envoi de formulaire (`FORM_ENDPOINT`, ex. Formspree) ou une vidéo intégrée (YouTube…), mettez à jour la page confidentialité (sous-traitants) et, si l'outil dépose des cookies non exemptés, ajoutez un bandeau de consentement.
+- Offre affichée comme réservée aux professionnels (sinon : médiateur de la consommation et prix TTC obligatoires).
