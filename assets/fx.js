@@ -19,19 +19,10 @@
 
   if (reduce) return;
 
-  /* 2. Titres : apparition mot par mot */
-  $$("main h2").forEach(function (h) {
-    var txt = h.textContent.trim().replace(/\s+/g, " ");
-    h.setAttribute("aria-label", txt);
-    h.innerHTML = txt.split(" ").map(function (w, i) {
-      return '<span class="w" aria-hidden="true" style="--i:' + i + '">' + w.replace(/&/g, "&amp;") + "</span>";
-    }).join(" ");
-    h.classList.add("words", "reveal-words");
-  });
-
   /* 3. Apparition des blocs, avec décalage dans une même grille */
-  var GROUPS = [".cards>*", ".uses>li", ".three>li", ".steps>li", ".facts>li", ".pano>li", ".included>li", ".photo-row>figure", ".chips>li", ".timeline>li", ".price-list>li", ".faq>details"];
-  var SINGLES = ".eyebrow,.sub,.note,.zone h3,.pill,.viewfinder,.content-split>div,.estimator,.summary,.form,.cta-row,.more";
+  // les textes (titres, paragraphes, listes) ne sont plus animés au défilement : seules les tuiles et les photos apparaissent
+  var GROUPS = [".cards>*", ".uses>li", ".three>li", ".steps>li", ".facts>li", ".pano>li", ".included>li", ".photo-row>figure"];
+  var SINGLES = ".viewfinder,.estimator,.summary,.form";
   var seen = new Set();
   GROUPS.forEach(function (g) {
     $$(g).forEach(function (el, i) { el.classList.add("reveal"); el.style.setProperty("--i", Math.min(i, 7)); seen.add(el); });
@@ -48,7 +39,7 @@
       en.target.addEventListener("transitionend", function (ev) { if (ev.propertyName === "opacity") ev.target.style.setProperty("--i", 0); }, { once: true });
     });
   }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
-  $$(".reveal,.reveal-words").forEach(function (el) { io.observe(el); });
+  $$(".reveal").forEach(function (el) { io.observe(el); });
 
   /* 4. Compteurs des chiffres clés */
   function count(el) {

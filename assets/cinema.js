@@ -37,21 +37,44 @@
 
   if (reduce) return;
 
-  /* ---------- 2. Défilement fluide + inclinaison selon la vitesse ---------- */
-  var lenis = null, skew = 0;
+  /* ---------- 2. Défilement fluide, inclinaison et parallaxe ----------
+     Pour rester fluide sur grand écran : on écrit directement le transform des quelques
+     éléments concernés (jamais une variable globale qui forcerait le recalcul de toute
+     la page), on lit toutes les positions avant d'écrire, et on ne travaille que pendant
+     le défilement. */
+  var SKEW = $$(".cards, .uses, .photo-row");
+  var PAR = $$(".card .ph img, .photo-row img, .page-hero > img, .bg-section > img.bg, .viewfinder img");
+  PAR.forEach(function (img) { img.classList.add("par"); });
+  var skew = 0, lastSkew = null, lenis = null, lastY = scrollY, idle = 0;
+
+  function frame() {
+    // inclinaison : faible et lissée, revient à 0 à l'arrêt
+    var y = scrollY, v = y - lastY; lastY = y;   // vitesse réelle en px par image
+    var target = Math.max(-1.2, Math.min(1.2, v * 0.03));
+    skew += (target - skew) * 0.15;
+    if (Math.abs(skew) < 0.02) skew = 0;
+    var s = Math.round(skew * 20) / 20;
+    if (s !== lastSkew) {
+      var tr = s ? "skewY(" + s + "deg)" : "";
+      for (var k = 0; k < SKEW.length; k++) SKEW[k].style.transform = tr;
+      lastSkew = s;
+    }
+    // parallaxe : lecture groupée puis écriture
+    var vh = innerHeight, offs = [];
+    for (var j = 0; j < PAR.length; j++) {
+      var r = PAR[j].parentNode.getBoundingClientRect();
+      offs.push(r.bottom < -150 || r.top > vh + 150 ? null : ((r.top + r.height / 2) - vh / 2) * -0.06);
+    }
+    for (var m = 0; m < PAR.length; m++) {
+      if (offs[m] === null) continue;
+      PAR[m].style.transform = "translate3d(0," + offs[m].toFixed(1) + "px,0) scale(1.12)";
+    }
+  }
+
   if (window.Lenis) {
-    lenis = new window.Lenis({ lerp: 0.09, wheelMultiplier: 0.95 });
+    lenis = new window.Lenis({ lerp: 0.1, wheelMultiplier: 0.9 });
     root.classList.add("lenis-on");
-    lenis.on("scroll", parallax);
-    // inclinaison lissée image par image : revient à 0 quand le défilement s'arrête
-    var raf = function (t) {
-      lenis.raf(t);
-      var target = lenis.isScrolling ? Math.max(-3, Math.min(3, (lenis.velocity || 0) * 0.12)) : 0;
-      skew += (target - skew) * 0.12;
-      if (Math.abs(skew) < 0.01) skew = 0;
-      root.style.setProperty("--skew", skew.toFixed(2) + "deg");
-      requestAnimationFrame(raf);
-    };
+    var raf = function (t) { lenis.raf(t); requestAnimationFrame(raf); };
     requestAnimationFrame(raf);
     // ancres internes : défilement fluide en tenant compte du menu fixe
     document.addEventListener("click", function (e) {
@@ -66,22 +89,14 @@
       lenis.scrollTo(target.getBoundingClientRect().top + lenis.animatedScroll - 90);
     });
   }
-
-  /* ---------- 3. Parallaxe des photos ---------- */
-  var PAR = $$(".card .ph img, .photo-row img, .page-hero > img, .bg-section > img.bg, .viewfinder img");
-  PAR.forEach(function (img) { img.classList.add("par"); });
-  function parallax() {
-    var vh = innerHeight;
-    for (var k = 0; k < PAR.length; k++) {
-      var r = PAR[k].parentNode.getBoundingClientRect();
-      if (r.bottom < -100 || r.top > vh + 100) continue;
-      var off = ((r.top + r.height / 2) - vh / 2) * -0.07;
-      PAR[k].style.setProperty("--py", off.toFixed(1) + "px");
-    }
-  }
-  if (!lenis) addEventListener("scroll", function () { requestAnimationFrame(parallax); }, { passive: true });
-  addEventListener("resize", parallax);
-  parallax();
+  // boucle légère : ne recalcule que si la page a bougé ou si l'inclinaison retombe
+  (function loop() {
+    if (scrollY !== lastY || skew !== 0) { frame(); idle = 0; }
+    else if (idle++ === 0) frame();
+    requestAnimationFrame(loop);
+  })();
+  addEventListener("resize", frame);
+  frame();
 
   /* ---------- 4. Particules interactives (accueil) ---------- */
   var hero = document.querySelector(".hero");
@@ -90,14 +105,14 @@
     cv.className = "hero-canvas"; cv.setAttribute("aria-hidden", "true");
     var bgEl = hero.querySelector(".hero-bg");
     if (bgEl) bgEl.insertAdjacentElement("afterend", cv); else hero.insertBefore(cv, hero.firstChild);
-    var ctx = cv.getContext("2d"), W = 0, H = 0, dpr = Math.min(devicePixelRatio || 1, 1.5);
+    var ctx = cv.getContext("2d"), W = 0, H = 0, dpr = 1;
     var P = [], COLORS = ["46,230,214", "34,184,255", "255,61,154", "139,123,255"];
     var mouse = { x: -9999, y: -9999, on: false }, running = false, visible = true, t = 0;
     function size() {
       var r = hero.getBoundingClientRect();
       W = r.width; H = r.height;
       cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      var n = Math.round(Math.min(1400, Math.max(260, W * H / (fine ? 1100 : 2600))));
+      var n = Math.round(Math.min(900, Math.max(220, W * H / (fine ? 1800 : 3200))));
       P = [];
       for (var q = 0; q < n; q++) P.push({
         x: Math.random() * W, y: Math.random() * H, vx: 0, vy: 0,
@@ -156,8 +171,11 @@
     }, { passive: true });
     document.addEventListener("pointerleave", function () { tx = ty = -100; });
     (function loop() {
-      cx += (tx - cx) * 0.22; cy += (ty - cy) * 0.22;
-      cur.style.transform = "translate(" + cx.toFixed(1) + "px," + cy.toFixed(1) + "px)";
+      var dx = tx - cx, dy = ty - cy;
+      if (Math.abs(dx) > 0.1 || Math.abs(dy) > 0.1) {
+        cx += dx * 0.22; cy += dy * 0.22;
+        cur.style.transform = "translate3d(" + cx.toFixed(1) + "px," + cy.toFixed(1) + "px,0)";
+      }
       requestAnimationFrame(loop);
     })();
     $$(".btn").forEach(function (b) {
