@@ -360,7 +360,6 @@ html.lenis-on{scroll-behavior:auto}
 html.lenis-on body{height:auto}
 .lenis.lenis-stopped{overflow:hidden}
 /* inclinaison selon la vitesse de défilement */
-/* parallaxe : image légèrement agrandie pour ne pas laisser de bord vide */
 
 /* particules de l'accueil */
 .hero-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
@@ -368,10 +367,6 @@ html.lenis-on body{height:auto}
 /* titre dévoilé mot à mot */
 .js .hero h1 .w,.js .page-hero h1 .w{display:inline-block;opacity:0;transform:translateY(.45em) rotate(2deg);filter:blur(8px);transition:opacity .7s ease,transform .8s cubic-bezier(.2,.7,.2,1),filter .7s ease;transition-delay:calc(var(--i,0) * 70ms)}
 .js .hero h1.in .w,.js .page-hero h1.in .w{opacity:1;transform:none;filter:none}
-/* curseur lumineux */
-.cursor{position:fixed;left:0;top:0;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;pointer-events:none;z-index:999;
-  border:1.5px solid rgba(46,230,214,.7);box-shadow:0 0 18px rgba(46,230,214,.35);transition:width .25s,height .25s,margin .25s,background .25s,border-color .25s;will-change:transform}
-.cursor.hot{width:58px;height:58px;margin:-29px 0 0 -29px;background:rgba(34,184,255,.12);border-color:rgba(34,184,255,.9)}
 /* boutons aimantés */
 .btn{transform:translate(var(--bx,0px),var(--by,0px))}
 .btn:hover{transform:translate(var(--bx,0px),calc(var(--by,0px) - 2px))}
@@ -386,8 +381,7 @@ html.lenis-on body{height:auto}
 ::view-transition-new(root){animation:vt-in .35s ease both}
 @keyframes vt-out{to{opacity:0;transform:translateY(-12px)}}
 @keyframes vt-in{from{opacity:0;transform:translateY(12px)}}
-@media(pointer:coarse){.cursor{display:none}}
-@media(prefers-reduced-motion:reduce){.cursor,.hero-canvas{display:none}@view-transition{navigation:none}}
+@media(prefers-reduced-motion:reduce){.hero-canvas{display:none}@view-transition{navigation:none}}
 @media(max-width:600px){.hint{display:block}.hint .rec{display:inline-block;margin-right:.4rem;vertical-align:middle}}
 
 /* performance : flous coûteux retirés pendant le défilement */
@@ -405,18 +399,10 @@ html.lenis-on body{height:auto}
 .nav>*{position:relative}
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.nav{background:rgba(8,14,22,.92)}}
 
-/* la photo agrandie par la parallaxe reste dans son cadre (ne recouvre plus le titre) */
+/* la photo reste dans son cadre (ne recouvre jamais le titre) */
 .card .ph{overflow:hidden}
 /* menu en verre : teinte un peu plus sombre pour garder le logo lisible sur les photos claires */
 .nav{background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02)),rgba(6,11,18,.55)}
 
-/* parallaxe des photos, calculée par le navigateur au rythme du défilement (Chrome, Edge, Safari récents) ;
-   ailleurs les photos restent simplement fixes dans leur cadre */
-@supports (animation-timeline: view()) {
-  .card .ph img,.photo-row img,.page-hero>img,.bg-section>img.bg,.viewfinder img{
-    animation:parallaxe linear both;animation-timeline:view();animation-range:cover}
-  @keyframes parallaxe{from{transform:translateY(-5%) scale(1.12)}to{transform:translateY(5%) scale(1.12)}}
-}
-@media(prefers-reduced-motion:reduce){.card .ph img,.photo-row img,.page-hero>img,.bg-section>img.bg,.viewfinder img{animation:none!important}}
-/* rognage sans créer de conteneur de défilement (sinon la parallaxe CSS se cale sur le cadre au lieu de la page) */
+/* rognage des cadres photo */
 .card,.card .ph,.photo-row figure,.page-hero,.bg-section,.viewfinder,.ph-content{overflow:clip}
