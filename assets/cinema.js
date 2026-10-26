@@ -1,6 +1,6 @@
-/* Effets « cinématiques » (défilement natif du navigateur, parallaxe en CSS),
+/* Effets légers (défilement natif du navigateur, rien ne tourne pendant le défilement) :
    particules interactives dans l'accueil, titre dévoilé mot à mot,
-   curseur lumineux et boutons aimantés. Tout est désactivé si l'utilisateur préfère
+   boutons aimantés. Tout est désactivé si l'utilisateur préfère
    moins d'animations ; le contenu reste lisible sans JavaScript. */
 (function () {
   var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -36,9 +36,6 @@
   }
 
   if (reduce) return;
-
-  /* ---------- 2. Parallaxe : gérée en CSS (animation liée au défilement, calculée par le
-     navigateur en même temps que le défilement natif), aucun calcul JavaScript au scroll ---------- */
 
   /* ---------- 4. Particules interactives (accueil) ---------- */
   var hero = document.querySelector(".hero");
@@ -101,25 +98,8 @@
     size(); play();
   }
 
-  /* ---------- 5. Curseur lumineux et boutons aimantés (souris uniquement) ---------- */
+  /* ---------- 5. Boutons aimantés (souris uniquement) ---------- */
   if (fine) {
-    var cur = document.createElement("div"); cur.className = "cursor"; cur.setAttribute("aria-hidden", "true");
-    document.body.appendChild(cur);
-    var cx = -100, cy = -100, tx = -100, ty = -100;
-    addEventListener("pointermove", function (e) {
-      tx = e.clientX; ty = e.clientY;
-      var hot = e.target.closest && e.target.closest("a, button, label, select, summary, input, textarea");
-      cur.classList.toggle("hot", !!hot);
-    }, { passive: true });
-    document.addEventListener("pointerleave", function () { tx = ty = -100; });
-    (function loop() {
-      var dx = tx - cx, dy = ty - cy;
-      if (Math.abs(dx) > 0.1 || Math.abs(dy) > 0.1) {
-        cx += dx * 0.22; cy += dy * 0.22;
-        cur.style.transform = "translate3d(" + cx.toFixed(1) + "px," + cy.toFixed(1) + "px,0)";
-      }
-      requestAnimationFrame(loop);
-    })();
     $$(".btn").forEach(function (b) {
       b.addEventListener("pointermove", function (e) {
         var r = b.getBoundingClientRect();
