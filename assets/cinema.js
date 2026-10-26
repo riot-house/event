@@ -1,5 +1,5 @@
-/* Effets « cinématiques » : défilement fluide (Lenis), inclinaison selon la vitesse,
-   parallaxe des photos, particules interactives dans l'accueil, titre dévoilé mot à mot,
+/* Effets « cinématiques » (défilement natif du navigateur, parallaxe en CSS),
+   particules interactives dans l'accueil, titre dévoilé mot à mot,
    curseur lumineux et boutons aimantés. Tout est désactivé si l'utilisateur préfère
    moins d'animations ; le contenu reste lisible sans JavaScript. */
 (function () {
@@ -37,66 +37,8 @@
 
   if (reduce) return;
 
-  /* ---------- 2. Défilement fluide, inclinaison et parallaxe ----------
-     Pour rester fluide sur grand écran : on écrit directement le transform des quelques
-     éléments concernés (jamais une variable globale qui forcerait le recalcul de toute
-     la page), on lit toutes les positions avant d'écrire, et on ne travaille que pendant
-     le défilement. */
-  var SKEW = $$(".cards, .uses, .photo-row");
-  var PAR = $$(".card .ph img, .photo-row img, .page-hero > img, .bg-section > img.bg, .viewfinder img");
-  PAR.forEach(function (img) { img.classList.add("par"); });
-  var skew = 0, lastSkew = null, lenis = null, lastY = scrollY, idle = 0;
-
-  function frame() {
-    // inclinaison : faible et lissée, revient à 0 à l'arrêt
-    var y = scrollY, v = y - lastY; lastY = y;   // vitesse réelle en px par image
-    var target = Math.max(-1.2, Math.min(1.2, v * 0.03));
-    skew += (target - skew) * 0.15;
-    if (Math.abs(skew) < 0.02) skew = 0;
-    var s = Math.round(skew * 20) / 20;
-    if (s !== lastSkew) {
-      var tr = s ? "skewY(" + s + "deg)" : "";
-      for (var k = 0; k < SKEW.length; k++) SKEW[k].style.transform = tr;
-      lastSkew = s;
-    }
-    // parallaxe : lecture groupée puis écriture
-    var vh = innerHeight, offs = [];
-    for (var j = 0; j < PAR.length; j++) {
-      var r = PAR[j].parentNode.getBoundingClientRect();
-      offs.push(r.bottom < -150 || r.top > vh + 150 ? null : ((r.top + r.height / 2) - vh / 2) * -0.06);
-    }
-    for (var m = 0; m < PAR.length; m++) {
-      if (offs[m] === null) continue;
-      PAR[m].style.transform = "translate3d(0," + offs[m].toFixed(1) + "px,0) scale(1.12)";
-    }
-  }
-
-  if (window.Lenis) {
-    lenis = new window.Lenis({ lerp: 0.1, wheelMultiplier: 0.9 });
-    root.classList.add("lenis-on");
-    var raf = function (t) { lenis.raf(t); requestAnimationFrame(raf); };
-    requestAnimationFrame(raf);
-    // ancres internes : défilement fluide en tenant compte du menu fixe
-    document.addEventListener("click", function (e) {
-      var a = e.target.closest && e.target.closest('a[href*="#"]');
-      if (!a) return;
-      var url = new URL(a.href, location.href);
-      if (url.pathname !== location.pathname || !url.hash) return;
-      var target = document.getElementById(decodeURIComponent(url.hash.slice(1)));
-      if (!target) return;
-      e.preventDefault();
-      if (url.search !== location.search) history.replaceState(null, "", url.search + url.hash);
-      lenis.scrollTo(target.getBoundingClientRect().top + lenis.animatedScroll - 90);
-    });
-  }
-  // boucle légère : ne recalcule que si la page a bougé ou si l'inclinaison retombe
-  (function loop() {
-    if (scrollY !== lastY || skew !== 0) { frame(); idle = 0; }
-    else if (idle++ === 0) frame();
-    requestAnimationFrame(loop);
-  })();
-  addEventListener("resize", frame);
-  frame();
+  /* ---------- 2. Parallaxe : gérée en CSS (animation liée au défilement, calculée par le
+     navigateur en même temps que le défilement natif), aucun calcul JavaScript au scroll ---------- */
 
   /* ---------- 4. Particules interactives (accueil) ---------- */
   var hero = document.querySelector(".hero");
