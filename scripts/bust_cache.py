@@ -4,7 +4,7 @@ rechargent toujours la dernière version après un déploiement (GitHub Pages me
 import hashlib, pathlib, re
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-ASSETS = ["assets/style.css", "assets/fx.js", "assets/app.js"]
+ASSETS = ["assets/style.css", "assets/fx.js", "assets/app.js", "assets/cinema.js"]
 ver = {a: hashlib.sha1((ROOT / a).read_bytes()).hexdigest()[:8] for a in ASSETS}
 
 for f in ROOT.rglob("*.html"):

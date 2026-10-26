@@ -353,3 +353,40 @@ input[type=radio]{accent-color:var(--cyan);width:18px;height:18px}
 .legal .updated{font-size:.85rem}
 .legal-note{text-align:left}
 .legal-note a{color:var(--text)}
+
+/* ---------- v6 : cinématique ---------- */
+/* défilement fluide (Lenis) */
+html.lenis-on{scroll-behavior:auto}
+html.lenis-on body{height:auto}
+.lenis.lenis-stopped{overflow:hidden}
+/* inclinaison selon la vitesse de défilement */
+main h2,.cards,.uses,.photo-row,.facts,.steps,.included{transform:skewY(var(--skew,0deg));transform-origin:center;will-change:transform}
+/* parallaxe : image légèrement agrandie pour ne pas laisser de bord vide */
+.par{transform:translate3d(0,var(--py,0px),0) scale(1.14);will-change:transform}
+/* particules de l'accueil */
+.hero-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.hero-inner{z-index:1}
+/* titre dévoilé mot à mot */
+.js .hero h1 .w,.js .page-hero h1 .w{display:inline-block;opacity:0;transform:translateY(.45em) rotate(2deg);filter:blur(8px);transition:opacity .7s ease,transform .8s cubic-bezier(.2,.7,.2,1),filter .7s ease;transition-delay:calc(var(--i,0) * 70ms)}
+.js .hero h1.in .w,.js .page-hero h1.in .w{opacity:1;transform:none;filter:none}
+/* curseur lumineux */
+.cursor{position:fixed;left:0;top:0;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;pointer-events:none;z-index:999;
+  border:1.5px solid rgba(46,230,214,.7);box-shadow:0 0 18px rgba(46,230,214,.35);transition:width .25s,height .25s,margin .25s,background .25s,border-color .25s;mix-blend-mode:screen}
+.cursor.hot{width:58px;height:58px;margin:-29px 0 0 -29px;background:rgba(34,184,255,.12);border-color:rgba(34,184,255,.9)}
+/* boutons aimantés */
+.btn{transform:translate(var(--bx,0px),var(--by,0px))}
+.btn:hover{transform:translate(var(--bx,0px),calc(var(--by,0px) - 2px))}
+/* bordure lumineuse qui suit le pointeur sur les cartes (en plus du halo) */
+.glow::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;opacity:0;transition:opacity .25s;
+  background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(46,230,214,.9),transparent 60%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+.glow:hover::after{opacity:1}
+/* transitions de page sans écran blanc (navigateurs compatibles) */
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:vt-out .25s ease both}
+::view-transition-new(root){animation:vt-in .35s ease both}
+@keyframes vt-out{to{opacity:0;transform:translateY(-12px)}}
+@keyframes vt-in{from{opacity:0;transform:translateY(12px)}}
+@media(pointer:coarse){.cursor{display:none}}
+@media(prefers-reduced-motion:reduce){main h2,.cards,.uses,.photo-row,.facts,.steps,.included,.par{transform:none!important}.cursor,.hero-canvas{display:none}@view-transition{navigation:none}}
+@media(max-width:600px){.hint{display:block}.hint .rec{display:inline-block;margin-right:.4rem;vertical-align:middle}}
