@@ -19,6 +19,12 @@
       i.dataset.price = i.dataset[mode];
       i.parentNode.querySelector("b").textContent = fmt(+i.dataset.price) + " €";
     });
+    // Forfait lumières : 250 € par espace coché (1 espace 250 €, 2 espaces 500 €, 3 espaces 750 €)
+    var spaces = est.querySelectorAll("input[data-space]:checked").length;
+    Array.prototype.forEach.call(est.querySelectorAll("input[data-per-space]"), function (i) {
+      i.dataset.price = +i.dataset.perSpace * Math.max(1, spaces);
+      i.parentNode.querySelector("b").textContent = fmt(+i.dataset.price) + " €";
+    });
     Array.prototype.forEach.call(est.querySelectorAll(".soir-only"), function (el) { el.hidden = !soir; });
     if (!soir) document.getElementById("overtime").value = "0";
     var LABELS = { demi: "Demi-journée (9h-13h ou 14h-18h), ménage inclus", jour: "Journée 9h-18h, ménage inclus", soir: "Soirée 16h-minuit, ménage et technicien inclus" };
