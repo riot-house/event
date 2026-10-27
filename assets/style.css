@@ -430,3 +430,8 @@ html.lenis-on body{height:auto}
 .consent-btns{display:flex;gap:10px}
 .manage-cookies[hidden]{display:none}
 .consent .btn-ghost{color:#fff!important}
+
+/* page Contenu photo & vidéo : fond moins assombri, la photo de making-of se voit */
+.ph-contenu-photo-video>img{filter:brightness(1.35) saturate(1.1)}
+.ph-contenu-photo-video::before{background:linear-gradient(90deg,rgba(5,8,13,.85) 15%,rgba(5,8,13,.35) 60%,rgba(5,8,13,.1)),linear-gradient(180deg,transparent 65%,var(--bg))}
+@media(max-width:700px){.ph-contenu-photo-video::before{background:linear-gradient(180deg,rgba(5,8,13,.3),rgba(5,8,13,.6) 70%,var(--bg))}}
