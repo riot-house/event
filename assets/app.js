@@ -12,7 +12,7 @@
   var summaryText = "";
 
   function update() {
-    // Formule : demi-journée (9h-13h / 14h-18h), journée (9h-18h) ou soirée (16h-minuit, ménage inclus)
+    // Formule : demi-journée (9h-13h / 14h-18h), journée (9h-18h) ou soirée (16h-minuit) ; ménage toujours inclus, technicien en soirée
     var f = est.querySelector('input[name="formule"]:checked');
     var mode = f ? f.value : "soir", soir = mode === "soir";
     Array.prototype.forEach.call(est.querySelectorAll("input[data-jour]"), function (i) {
@@ -21,7 +21,7 @@
     });
     Array.prototype.forEach.call(est.querySelectorAll(".soir-only"), function (el) { el.hidden = !soir; });
     if (!soir) document.getElementById("overtime").value = "0";
-    var LABELS = { demi: "Demi-journée (9h-13h ou 14h-18h)", jour: "Journée 9h-18h", soir: "Soirée 16h-minuit, ménage inclus" };
+    var LABELS = { demi: "Demi-journée (9h-13h ou 14h-18h), ménage inclus", jour: "Journée 9h-18h, ménage inclus", soir: "Soirée 16h-minuit, ménage et technicien sur place inclus" };
     var total = 0, lines = [], text = [LABELS[mode]];
     est.querySelectorAll("input[type=checkbox]:checked").forEach(function (i) {
       var p = +i.dataset.price;
