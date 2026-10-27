@@ -1,3 +1,4 @@
-# Site en phase de test : ne pas indexer
 User-agent: *
-Disallow: /
+Allow: /
+
+Sitemap: https://event.riothouse.fr/sitemap.xml
