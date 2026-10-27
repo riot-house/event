@@ -9,7 +9,7 @@
   var est = document.getElementById("estimator");
   var recap = document.getElementById("recap");
   var field = document.getElementById("estimate-field");
-  var summaryText = "";
+  var summaryText = "", lastTotal = 0;
 
   function update() {
     // Formule : demi-journée (9h-13h / 14h-18h), journée (9h-18h) ou soirée (16h-minuit) ; ménage toujours inclus, technicien en soirée
@@ -35,6 +35,7 @@
       lines.push(["Heures sup. ×" + h, fmt(h * OVERTIME_RATE) + " €"]);
       text.push(h + " h supplémentaire(s)");
     }
+    lastTotal = total;
     document.getElementById("total-ht").textContent = fmt(total);
     document.getElementById("total-ttc").textContent = fmt(Math.round(total * (1 + VAT)));
     recap.innerHTML = lines.map(function (l) { return "<li><span>" + l[0] + "</span><span>" + l[1] + "</span></li>"; }).join("");
@@ -69,10 +70,12 @@
     delete data.website;
     if (FORM_ENDPOINT) {
       fetch(FORM_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(data) })
-        .then(function (r) { if (!r.ok) throw 0; status.textContent = "Merci ! Nous revenons vers vous sous 24 h ouvrées."; form.reset(); })
+        .then(function (r) { if (!r.ok) throw 0; window.rhTrack && window.rhTrack("lead", lastTotal); status.textContent = "Merci ! Nous revenons vers vous sous 24 h ouvrées."; form.reset(); })
         .catch(function () { status.textContent = "Envoi impossible. Écrivez-nous à " + CONTACT_EMAIL; });
       return;
     }
+    // Conversion Google Ads : demande de devis (si consentement et identifiants renseignés dans ads.js)
+    if (window.rhTrack) window.rhTrack("lead", lastTotal);
     var body = ["Nom : " + data.name, "Entreprise : " + data.company, "Téléphone : " + data.phone, "E-mail : " + data.email,
       "Date : " + data.date, "Invités : " + data.guests, "Type : " + data.type, "Estimation : " + data.estimate, "", data.message].join("\n");
     window.location.href = "mailto:" + CONTACT_EMAIL + "?subject=" + encodeURIComponent("Demande de devis événement – " + (data.company || data.name)) + "&body=" + encodeURIComponent(body);

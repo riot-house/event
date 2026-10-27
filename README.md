@@ -30,3 +30,11 @@ Pour la mise en production : `python3 scripts/set_indexing.py on`, commit, push 
 - Pages `/mentions-legales/` (LCEN) et `/confidentialite/` (RGPD), liées dans le pied de page ; mention d'information sous le formulaire.
 - Aucun cookie ni traceur : pas de bandeau de consentement nécessaire. **Si vous ajoutez** un outil de statistiques, un service d'envoi de formulaire (`FORM_ENDPOINT`, ex. Formspree) ou une vidéo intégrée (YouTube…), mettez à jour la page confidentialité (sous-traitants) et, si l'outil dépose des cookies non exemptés, ajoutez un bandeau de consentement.
 - Offre affichée comme réservée aux professionnels (sinon : médiateur de la consommation et prix TTC obligatoires).
+
+## Suivi des conversions Google Ads
+
+Le formulaire de devis (et le clic sur le téléphone) peut être mesuré comme conversion Google Ads.
+Dans `assets/ads.js`, renseigner `ADS_ID` (`AW-…`) et `LEAD_LABEL` (libellé de l'action « Demande de devis »),
+`PHONE_LABEL` en option. Tant qu'ils sont vides, rien n'est chargé et aucun bandeau n'apparaît.
+Une fois renseignés, un bandeau de consentement s'affiche ; Google n'est chargé qu'après « Accepter ».
+L'événement `generate_lead` et la conversion partent avec la valeur de l'estimation HT.
