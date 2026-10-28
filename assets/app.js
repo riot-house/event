@@ -1,6 +1,6 @@
 (function () {
   // Envoi du formulaire : POST classique vers FormSubmit (action du formulaire), qui envoie la demande
-  // à contact@riothouse.fr et une copie de confirmation au demandeur (_autoresponse), puis renvoie vers /merci.html.
+  // à riothouseprod@gmail.com et une copie de confirmation au demandeur (_autoresponse), puis renvoie vers /merci.html.
   var OVERTIME_RATE = 100, VAT = 0.2;
 
   var fmt = function (n) { return n.toLocaleString("fr-FR"); };
