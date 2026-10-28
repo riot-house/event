@@ -435,3 +435,10 @@ html.lenis-on body{height:auto}
 .ph-contenu-photo-video>img{filter:brightness(1.35) saturate(1.1)}
 .ph-contenu-photo-video::before{background:linear-gradient(90deg,rgba(5,8,13,.85) 15%,rgba(5,8,13,.35) 60%,rgba(5,8,13,.1)),linear-gradient(180deg,transparent 65%,var(--bg))}
 @media(max-width:700px){.ph-contenu-photo-video::before{background:linear-gradient(180deg,rgba(5,8,13,.3),rgba(5,8,13,.6) 70%,var(--bg))}}
+
+/* estimation rappelée dans le formulaire de contact */
+.form-estimate{margin:0 0 14px;padding:14px 16px;border:1px solid rgba(46,230,214,.35);border-radius:14px;background:rgba(46,230,214,.06)}
+.form-estimate[hidden]{display:none}
+.form-estimate .eyebrow{margin:0 0 4px}
+.form-estimate p{margin:0;color:#fff;font-size:.92rem;line-height:1.45}
+.form-estimate small{display:block;margin-top:6px;color:var(--muted)}
