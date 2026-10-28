@@ -1,6 +1,9 @@
 (function () {
-  // Envoi du formulaire : POST classique vers FormSubmit (action du formulaire), qui envoie la demande
-  // à riothouseprod@gmail.com et une copie de confirmation au demandeur (_autoresponse), puis renvoie vers /merci.html.
+  // Envoi du formulaire : script Google Apps Script du compte riothouseprod@gmail.com
+  // (scripts/formulaire-apps-script.gs), qui envoie la demande et une confirmation au demandeur.
+  // Tant que l'URL n'est pas renseignée, on ouvre la messagerie du visiteur avec la demande pré-remplie.
+  var FORM_ENDPOINT = "";
+  var CONTACT_EMAIL = "contact@riothouse.fr";
   var OVERTIME_RATE = 100, VAT = 0.2;
 
   var fmt = function (n) { return n.toLocaleString("fr-FR"); };
@@ -70,18 +73,35 @@
     }
   }
   form.addEventListener("submit", function (e) {
-    if (el._honey.value) { e.preventDefault(); return; }
-    var name = el["Nom"].value.trim(), mail = el.email.value.trim();
-    if (!name || !/.+@.+\..+/.test(mail)) {
-      e.preventDefault();
+    e.preventDefault();
+    if (el._honey.value) return;
+    var data = {
+      nom: el["Nom"].value.trim(), entreprise: el["Entreprise"].value.trim(), email: el.email.value.trim(),
+      telephone: el["Téléphone"].value.trim(), date: el["Date souhaitée"].value, invites: el["Nombre d'invités"].value,
+      type: typeField.value, estimation: field.value, projet: el["Votre projet"].value.trim()
+    };
+    if (!data.nom || !/.+@.+\..+/.test(data.email)) {
       status.textContent = "Merci d'indiquer votre nom et un e-mail valide.";
       return;
     }
-    el._subject.value = "Demande de devis événement – " + (el["Entreprise"].value.trim() || name);
     // Valeur de la conversion Google Ads, déclarée sur la page de remerciement
     try { sessionStorage.setItem("rh-lead", String(lastTotal)); } catch (err) {}
-    var btn = form.querySelector("button[type=submit]");
-    btn.textContent = "Envoi en cours…";
-    btn.style.pointerEvents = "none";
+    if (!FORM_ENDPOINT) return mailto(data);
+    var btn = form.querySelector("button[type=submit]"), label = btn.textContent;
+    btn.disabled = true; btn.textContent = "Envoi en cours…"; status.textContent = "";
+    fetch(FORM_ENDPOINT, { method: "POST", body: JSON.stringify(data) }) // text/plain : pas de requête préalable CORS
+      .then(function (r) { return r.json(); })
+      .then(function (res) { if (!res.ok) throw 0; location.href = "/merci.html"; })
+      .catch(function () {
+        btn.disabled = false; btn.textContent = label;
+        status.innerHTML = "L'envoi n'a pas abouti. Appelez-nous au <a href=\"tel:+33473159622\">04 73 15 96 22</a> ou <a href=\"#\" id=\"mail-fallback\">envoyez la demande par e-mail</a>.";
+        document.getElementById("mail-fallback").addEventListener("click", function (ev) { ev.preventDefault(); mailto(data); });
+      });
   });
+  function mailto(d) {
+    var body = ["Nom : " + d.nom, "Entreprise : " + d.entreprise, "Téléphone : " + d.telephone, "E-mail : " + d.email,
+      "Date : " + d.date, "Invités : " + d.invites, "Type : " + d.type, "Estimation : " + d.estimation, "", d.projet].join("\n");
+    window.location.href = "mailto:" + CONTACT_EMAIL + "?subject=" + encodeURIComponent("Demande de devis événement – " + (d.entreprise || d.nom)) + "&body=" + encodeURIComponent(body);
+    status.textContent = "Votre messagerie va s'ouvrir avec la demande pré-remplie : il ne reste qu'à l'envoyer.";
+  }
 })();
