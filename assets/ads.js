@@ -32,7 +32,7 @@
     document.head.appendChild(s);
   }
 
-  // Appelé par app.js à l'envoi du formulaire ; value = estimation HT si renseignée
+  // Appelé sur la page de remerciement après l'envoi du formulaire ; value = estimation HT si renseignée
   window.rhTrack = function (kind, value) {
     if (!loaded || !window.gtag) return;
     var label = kind === "phone" ? PHONE_LABEL : LEAD_LABEL;
@@ -76,6 +76,11 @@
 
   var c = read();
   if (c === "granted") load();
+  // Page de remerciement : la demande de devis vient d'être envoyée
+  try {
+    var lead = sessionStorage.getItem("rh-lead");
+    if (lead !== null && /\/merci/.test(location.pathname)) { sessionStorage.removeItem("rh-lead"); window.rhTrack("lead", +lead); }
+  } catch (e) {}
   else if (c === null) {
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", banner); else banner();
   }

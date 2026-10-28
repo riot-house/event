@@ -21,7 +21,7 @@
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
-<link rel="stylesheet" href="/assets/style.css?v=b7bc3d38">
+<link rel="stylesheet" href="/assets/style.css?v=709c5479">
 
 <script type="application/ld+json">
 {
@@ -35,7 +35,7 @@
       "url": "https://event.riothouse.fr/",
       "image": "https://event.riothouse.fr/assets/og-image.png",
       "telephone": "+33473159622",
-      "email": "contact@riothouseprod.com",
+      "email": "contact@riothouse.fr",
       "priceRange": "390 € - 2500 €",
       "maximumAttendeeCapacity": 100,
       "address": {
@@ -326,33 +326,43 @@
         <strong>Riot House Production</strong><br>
         23 rue de la Tannerie<br>63119 Châteaugay<br>
         <a href="tel:+33473159622">04 73 15 96 22</a><br>
-        <a href="mailto:contact@riothouseprod.com">contact@riothouseprod.com</a>
+        <a href="mailto:contact@riothouse.fr">contact@riothouse.fr</a>
       </address>
     </div>
-    <form class="form" id="lead-form" novalidate>
+    <form class="form" id="lead-form" action="https://formsubmit.co/contact@riothouse.fr" method="POST" novalidate>
       <div class="row">
-        <label>Nom<input name="name" required autocomplete="name"></label>
-        <label>Entreprise<input name="company" autocomplete="organization"></label>
+        <label>Nom<input name="Nom" required autocomplete="name"></label>
+        <label>Entreprise<input name="Entreprise" autocomplete="organization"></label>
       </div>
       <div class="row">
         <label>E-mail<input name="email" type="email" required autocomplete="email"></label>
-        <label>Téléphone<input name="phone" type="tel" autocomplete="tel"></label>
+        <label>Téléphone<input name="Téléphone" type="tel" autocomplete="tel"></label>
       </div>
       <div class="row">
-        <label>Date souhaitée<input name="date" type="date"></label>
-        <label>Nombre d'invités<input name="guests" type="number" min="1" max="100" inputmode="numeric"></label>
+        <label>Date souhaitée<input name="Date souhaitée" type="date"></label>
+        <label>Nombre d'invités<input name="Nombre d'invités" type="number" min="1" max="100" inputmode="numeric"></label>
       </div>
       <label>Type d'événement
-        <select name="type">
+        <select name="Type d'événement">
           <option>Soirée d'entreprise</option><option>Séminaire</option><option>Mise au vert</option><option>Lancement de produit</option>
           <option>Team building / afterwork</option><option>Tournage / shooting</option><option>Autre</option>
         </select>
       </label>
-      <label>Votre projet <small>(espaces souhaités, options, contraintes)</small><textarea name="message" rows="4" placeholder="Espaces souhaités, options (captation vidéo, photo, sécurité…), contraintes…"></textarea></label>
-      <input type="hidden" name="estimate" id="estimate-field">
-      <input type="text" name="website" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true">
+      <div class="form-estimate" id="form-estimate" hidden>
+        <p class="eyebrow">Votre estimation</p>
+        <p id="form-estimate-text"></p>
+        <small>Elle est jointe automatiquement à votre demande.</small>
+      </div>
+      <label>Votre projet <small>(espaces souhaités, options, contraintes)</small><textarea name="Votre projet" rows="4" placeholder="Espaces souhaités, options (captation vidéo, photo, sécurité…), contraintes…"></textarea></label>
+      <input type="hidden" name="Estimation" id="estimate-field" value="Aucune estimation">
+      <input type="hidden" name="_subject" value="Demande de devis événement">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_next" value="https://event.riothouse.fr/merci.html">
+      <input type="hidden" name="_autoresponse" value="Bonjour, merci pour votre demande de devis ! Nous l'avons bien reçue et revenons vers vous sous 24 h ouvrées. Vous trouverez ci-dessous le récapitulatif des informations envoyées. À très vite, l'équipe Riot House Event · 04 73 15 96 22 · event.riothouse.fr">
+      <input type="text" name="_honey" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true">
       <button class="btn btn-block" type="submit">Envoyer ma demande</button>
-      <p class="fine legal-note">Vos informations servent uniquement à répondre à votre demande de devis et sont conservées 3 ans au plus après notre dernier échange. Vous pouvez y accéder, les rectifier ou les faire supprimer en écrivant à contact@riothouseprod.com. <a href="/confidentialite/">Politique de confidentialité</a></p>
+      <p class="fine">Vous recevrez aussitôt un e-mail de confirmation avec le récapitulatif de votre demande.</p>
+      <p class="fine legal-note">Vos informations servent uniquement à répondre à votre demande de devis et sont conservées 3 ans au plus après notre dernier échange. Vous pouvez y accéder, les rectifier ou les faire supprimer en écrivant à contact@riothouse.fr. <a href="/confidentialite/">Politique de confidentialité</a></p>
       <p class="fine" id="form-status" role="status"></p>
     </form>
   </div>
@@ -368,9 +378,9 @@
   </div>
 </footer>
 
-<script src="/assets/ads.js?v=8fd82acd" defer></script>
+<script src="/assets/ads.js?v=1ddac0b3" defer></script>
 <script src="/assets/fx.js?v=851ea6b1" defer></script>
 <script src="/assets/cinema.js?v=e68865a1" defer></script>
-<script src="/assets/app.js?v=1b03adfe" defer></script>
+<script src="/assets/app.js?v=2b030df9" defer></script>
 </body>
 </html>
