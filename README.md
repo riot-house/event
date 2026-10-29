@@ -38,3 +38,11 @@ Dans `assets/ads.js`, renseigner `ADS_ID` (`AW-…`) et `LEAD_LABEL` (libellé d
 `PHONE_LABEL` en option. Tant qu'ils sont vides, rien n'est chargé et aucun bandeau n'apparaît.
 Une fois renseignés, un bandeau de consentement s'affiche ; Google n'est chargé qu'après « Accepter ».
 L'événement `generate_lead` et la conversion partent avec la valeur de l'estimation HT.
+
+## Formulaire de devis
+
+Les demandes passent par un script Google Apps Script du compte riothouseprod@gmail.com
+(`scripts/formulaire-apps-script.gs`, déployé en application Web) : la demande complète part vers
+riothouseprod@gmail.com et le demandeur reçoit une confirmation avec le récapitulatif.
+L'URL du déploiement (`…/exec`) est dans `FORM_ENDPOINT` (`assets/app.js`). Après une modification
+du script, faire « Déployer > Gérer les déploiements > Modifier > Nouvelle version » pour garder la même URL.
