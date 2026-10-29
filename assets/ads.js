@@ -76,12 +76,12 @@
 
   var c = read();
   if (c === "granted") load();
+  else if (c === null) {
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", banner); else banner();
+  }
   // Page de remerciement : la demande de devis vient d'être envoyée
   try {
     var lead = sessionStorage.getItem("rh-lead");
     if (lead !== null && /\/merci/.test(location.pathname)) { sessionStorage.removeItem("rh-lead"); window.rhTrack("lead", +lead); }
   } catch (e) {}
-  else if (c === null) {
-    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", banner); else banner();
-  }
 })();
