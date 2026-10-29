@@ -2,7 +2,7 @@
   // Envoi du formulaire : script Google Apps Script du compte riothouseprod@gmail.com
   // (scripts/formulaire-apps-script.gs), qui envoie la demande et une confirmation au demandeur.
   // Tant que l'URL n'est pas renseignée, on ouvre la messagerie du visiteur avec la demande pré-remplie.
-  var FORM_ENDPOINT = "";
+  var FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbwjllaxucDUIB9wSGXbcmmHYZWlfgqx2FAwPHRTD8p47I5I97gLD-ihOWtq3DSzoOHgow/exec";
   var CONTACT_EMAIL = "contact@riothouse.fr";
   var OVERTIME_RATE = 100, VAT = 0.2;
 
